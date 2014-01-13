@@ -1,0 +1,60 @@
+
+
+Lab2Processing
+==============
+
+/* 
+Lab 2: Exercise 1 (3 Buttons 1 LED)
+By: Kenix and Marishka 
+DIGF 2B03 Physical Computing
+OCAD University
+Created on 01/13/14
+
+Based on: http://arduino.cc/en/tutorial/button
+*/
+
+
+
+const int button1 = 2; 
+const int button2 = 3;
+const int button3 = 4;
+const int ledPin =  13; 
+//
+int buttonState1 = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  pinMode(button3, INPUT);
+  pinMode(button2, INPUT);
+  pinMode(button1, INPUT);
+}
+
+void loop()
+{
+  buttonState1 = digitalRead(button1);
+  buttonState2 = digitalRead(button2);
+  buttonState3 = digitalRead(button3);
+  //
+  if(buttonState1 == HIGH) {      
+    digitalWrite(ledPin, HIGH);   // sets the LED on
+  }
+   else if(buttonState2 == HIGH) {      
+    digitalWrite(ledPin, HIGH);   // sets the LED on
+    delay(1000);                  // waits for a second
+    digitalWrite(ledPin, LOW);
+    delay(1000);    // sets the LED off
+  }
+  
+  else if(buttonState3 == HIGH) {      
+    digitalWrite(ledPin, HIGH);   // sets the LED on
+    delay(500);                  // waits for a second
+    digitalWrite(ledPin, LOW);
+    delay(500);    // sets the LED off
+  }
+  else{
+    digitalWrite(ledPin, LOW);    // sets the LED off
+  }
+}
