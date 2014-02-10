@@ -1,0 +1,46 @@
+
+/*
+Project Title Midterm Project: Combination Lock
+Student Name: Marishka Zachariah
+Course Code & Title: DIGF 2B03
+OCAD University
+Created on Feb 9, 2014
+Based on:
+Arduino PLayground: Button State Change, http://arduino.cc/en/Tutorial/ButtonStateChange
+Arduino Language Reference, http://arduino.cc/en/Reference/HomePage
+*/
+
+
+const int buttonPin = 2;     // the number of the pushbutton pin
+const int ledPin =  13;      // the number of the LED pin
+int count = 0;               // Count the button presses
+
+// variables will change:
+int buttonState = 0;         // variable for reading the pushbutton status
+
+void setup() {
+  // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);     
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT);    
+}
+
+void loop(){
+  // read the state of the pushbutton value:
+  buttonState = digitalRead(buttonPin);
+
+  // check if the pushbutton is pressed.
+  // if it is, the buttonState is HIGH:
+  if (buttonState == HIGH) {    
+    // turn LED on:   
+    digitalWrite(ledPin, HIGH); 
+    count++;               // add 1 to the count
+    if (count >= 8) { //if the button is pressed 8 times
+      count = 0; //reset count to 0
+    } 
+  }
+  else {
+    // turn LED off:
+    digitalWrite(ledPin, LOW);
+  }
+}
