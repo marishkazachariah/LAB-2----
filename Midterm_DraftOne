@@ -1,0 +1,65 @@
+/*
+Midterm Project: Combination Lock
+Student Name: Marishka
+Course Code & Title: DIGF 2B03
+OCAD University
+Created on Feb 9, 2014
+Based on:
+Combination Lock, TronixStuff, http://tronixstuff.com/2011/07/02/project-single-button-combination-lock/
+
+This is to determine the amount of seconds (millis) the button delays for every
+2nd, 3rd and 4th delay when delay = 500. 
+
+*/
+
+int count=0;
+unsigned long a[]={0,0,0,0,0,0};
+unsigned long del[]={0,0,0,0,0};
+
+void setup()
+{
+  pinMode(2, INPUT);
+  Serial.begin(115200);
+  Serial.println("Ready");
+}
+
+void dataCapture()
+{
+  a[count]=millis();
+  delay(500); // for button debounce
+  count++;
+}
+
+void displayData()
+{
+    // calcualate delays between keypresses
+    del[0]=a[1]-a[0];
+    del[1]=a[2]-a[1];
+    del[2]=a[3]-a[2];
+    del[3]=a[4]-a[3];
+
+    // display delay data for use in combination lock sketch
+    for (int a=0; a<4; a++)
+    {
+      Serial.println();
+      Serial.print("Delay");
+      Serial.print(a);
+      Serial.print(" use ");
+      Serial.print(del[a]);
+      Serial.println(" ms");
+    }
+    Serial.println("I'm waiting");
+    count=0;
+}
+
+void loop()
+{
+  if (digitalRead(2)==HIGH)
+  {
+    dataCapture();
+  }
+  if (count>4)
+  {
+    displayData();
+  }
+}
