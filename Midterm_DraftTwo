@@ -1,0 +1,77 @@
+/*
+Midterm Project: Combination Lock
+Student Name: Marishka
+Course Code & Title: DIGF 2B03
+OCAD University
+Created on Feb 9, 2014
+Based on:
+Combination Lock, TronixStuff, http://tronixstuff.com/2011/07/02/project-single-button-combination-lock/
+*/
+ 
+int count=0;
+unsigned long a[]={0,0,0,0,0};
+unsigned long b[]={0,0,0,0,0};
+unsigned long del[]={1000,2000,3000,4000}; // these are the values obtained from running combilock1.pde
+// delay between each button press is 1000 ms
+float tolerance=.3;
+ 
+void setup()
+{
+  pinMode(2, INPUT);
+  Serial.begin(115200); // for testing purposes
+  Serial.println("Start"); // for testing purposes
+}
+ 
+void dataCapture()
+{
+  a[count]=millis();
+  delay(500); // for button debounce
+  count++;
+}
+ 
+void checkCombination()
+{
+    int compare=0;
+    count=0;
+    // calcualate delays between keypresses
+    b[0]=a[1]-a[0];
+    b[1]=a[2]-a[1];
+    b[2]=a[3]-a[2];
+    b[3]=a[4]-a[3];
+ 
+    // compare the button delay values 
+    if (b[0]<=(del[0]*(1+tolerance)) && b[0]>=(del[0]*(1-tolerance))) { compare++; }
+    if (b[1]<=(del[1]*(1+tolerance)) && b[1]>=(del[1]*(1-tolerance))) { compare++; }    
+    if (b[2]<=(del[2]*(1+tolerance)) && b[2]>=(del[2]*(1-tolerance))) { compare++; }
+    if (b[3]<=(del[3]*(1+tolerance)) && b[3]>=(del[3]*(1-tolerance))) { compare++; }
+    if (compare==4) { success(); } 
+    if (compare!=4) { failure(); }
+}
+ 
+void success()
+{
+   // contains code to run when combination successfully entered
+   Serial.println("Success!");
+   delay(5000);
+   Serial.println("I'm waiting");
+}
+ 
+void failure()
+{
+   // contains code to run when combination unsuccessfully entered
+   Serial.println("Failure!");
+   delay(5000);
+   Serial.println("I'm waiting");   //when delay occurs this prints in serial monitor
+}
+ 
+void loop()
+{
+  if (digitalRead(2)==HIGH)
+  {
+    dataCapture();
+  }
+  if (count>4)
+  {
+    checkCombination();
+  }
+}
