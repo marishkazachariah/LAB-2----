@@ -1,0 +1,56 @@
+/* 
+Lab 5
+By: Marishka 
+DIGF 2B03 Physical Computing
+OCAD University
+Created on 01/13/14
+
+Arduino.cc/Graph
+*/
+
+
+ 
+ import processing.serial.*;
+ 
+ Serial myPort;        // The serial port
+ int xPos = 1;         // horizontal position of the graph
+ 
+ void setup () {
+ // set the window size:
+ size(400, 300);        
+ 
+ // List all the available serial ports
+ println(Serial.list());
+ myPort = new Serial(this, Serial.list()[5], 9600);
+ 
+ myPort.bufferUntil('\n');
+ 
+ background(random(255), random(255),random(255));
+ }
+ void draw () {
+ 
+ }
+ 
+ void serialEvent (Serial myPort) {
+
+ String inString = myPort.readStringUntil('\n');
+ 
+ if (inString != null) {
+ // trim off any whitespace:
+ inString = trim(inString);
+ // convert to an int and map to the screen height:
+ float inByte = float(inString); 
+ inByte = map(inByte, 0, 1023, 0, height);
+ 
+
+ stroke(random(127),random(34),random(255));
+ ellipse(xPos, height, xPos, height - inByte);
+ 
+ // at the edge of the screen, go back to the beginning:
+ if (xPos >= width) {
+ xPos = 0;
+ background(0); 
+ } 
+
+ }
+ }
