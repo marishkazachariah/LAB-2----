@@ -1,3 +1,13 @@
+/* 
+Lab 5: Exercise 1 Arduino
+By: Marishka 
+DIGF 2B03 Physical Computing
+OCAD University
+Created on 01/13/14
+
+Based on: http://arduino.cc/en/tutorial/physicalpixel
+*/
+
 #include <Servo.h>
 
 Servo MyServo;
