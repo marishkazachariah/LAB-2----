@@ -1,0 +1,72 @@
+
+/* 
+Lab 6
+By: Brenner, Ton and Marishka 
+DIGF 2B03 Physical Computing
+OCAD University
+Created on 03/28/14
+
+Based on: 
+How to connect bluetooth to arduino
+http://blog.ocad.ca/wordpress/digf2b03-fw201303-01/wp-admin
+photoresistor tutorial
+http://arduino.cc/en/Tutorial/WhileLoop
+http://www.ciscomonkey.net/xbee-cheerlights/
+*/
+
+import processing.serial.*;
+Serial myPort;
+
+//Position of the square
+int xPos = 200;
+int yPos = 200;
+//Directions of movement
+int xDir;
+int yDir;
+//Controller and boolean for managing the direction changes
+int control = 1;
+boolean nextSelect = false;
+   
+ void setup () {
+ 
+ size(400, 400);
+ 
+ rectMode(CENTER);
+ ellipseMode(CENTER);
+ 
+ println(Serial.list());
+ 
+ myPort = new Serial(this, Serial.list()[9], 9600);
+ 
+ myPort.bufferUntil('\n');
+ 
+ background(0);
+ 
+}
+ 
+void draw () {
+ 
+}
+ 
+void serialEvent (Serial myPort) {
+
+ String inString = myPort.readStringUntil('\n');
+ 
+ if (inString != null) {
+   
+   inString = trim(inString);
+   
+   float inByte = float(inString); 
+   inByte = map(inByte, 220, 565, 0, height);
+  
+   stroke(127,34,255);
+   rect(xPos, yPos, inByte, inByte);
+   ellipse(xPos, yPos, height - inByte, height - inByte);
+   println(inByte);
+   
+  //If the potentiometer value goes to maximum (HEIGHT) or minimum (ZERO)
+  //And nextSelect is false, which means the direction hasn't changed
+  //Change CONTROL value and nextSelect is TRUE now, so the value CANNOT be changed anymore
+  
+   }
+ }
