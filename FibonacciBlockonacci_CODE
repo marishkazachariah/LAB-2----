@@ -1,0 +1,100 @@
+/*
+Fibonacci Blockonacci
+Marishka Zachariah
+DIGF 2B03 | Physical Computing
+OCAD University
+Created on April 5, 2014
+Based on:
+Force Sensor + LED http://cs.nyu.edu/~amos/courses/physical_computing/arduino-platform/force-sensitive-resistor-and-led-with-arduino_02202013.html
+Force Resisor + Arduino http://bildr.org/2012/11/force-sensitive-resistor-arduino/
+*/
+
+//digital pins for LEDs
+const int onePin = 13;
+const int twoPin = 12;
+const int threePin = 11;
+const int fivePin = 10;
+const int eightPin = 9;
+//analog pins for force resistors
+const int fsrPin = A1; //analog pin 0
+const int secPin = A1; //analog pin 1
+const int thirPin = A1; //analog pin 2
+const int frthPin = A1; //analog pin 3
+const int fivPin = A1; //analog pin 4
+
+void setup(){
+  Serial.begin(9600);
+   pinMode(onePin, OUTPUT);  
+   pinMode(twoPin, OUTPUT);  
+   pinMode(threePin, OUTPUT);  
+   pinMode(fivPin, OUTPUT);  
+   pinMode(eightPin, OUTPUT);  
+}
+
+void loop(){
+  int fsrVal = analogRead(fsrPin);
+  int secVal = analogRead(secPin);
+  int thirVal = analogRead(thirPin);
+  int frthVal = analogRead(frthPin);
+  int fivVal = analogRead(fivPin);
+  
+  
+  /*
+  I have booleans/"if statements" to determine whether the block will
+  turn on the LED, thus indicating visually that that's the correct block placed
+  in the correct groove. I have five booleans in total for each force resistor and LED. The
+  booleans are based on the weight of the force. Data is based on the Serial Monitor (which 
+  is taken note of that MIN is 0 and MAX and 1023). I give five following ranges
+  in relative increments of 200. 
+  */
+   if (secVal <= ((fsrVal <= 250) && (fsrVal >=0))) { 
+    digitalWrite(onePin, HIGH); 
+  } 
+  else {
+    digitalWrite(onePin, LOW);
+  }
+  
+  
+    if (secVal <= ((fsrVal <= 500) && (fsrVal >=251))) { 
+    digitalWrite(twoPin, HIGH); 
+  } 
+  else {
+    digitalWrite(twoPin, LOW);
+  }
+  
+  
+     if (secVal <= ((fsrVal <= 750 ) && (fsrVal >= 501))) { 
+    digitalWrite(threePin, HIGH); 
+  } 
+  else {
+    digitalWrite(threePin, LOW);
+  }
+  
+  
+     if (secVal <= ((fsrVal <= 1000) && (fsrVal >= 751))) { 
+    digitalWrite(fivePin, HIGH); 
+  } 
+  else {
+    digitalWrite(fivePin, LOW);
+  }
+  
+  
+     if (secVal <= ((fsrVal <= 1023) && (fsrVal >= 1001))) { 
+    digitalWrite(eightPin, HIGH); 
+  } 
+  else {
+    digitalWrite(eightPin, LOW);
+  }
+
+
+   //This code is to determine that if force is applied, an LED will turn on.
+  //int ledVal = map(fsrVal, 0, 100, 100,200 );
+  //Serial.println((String) fsrVal + "->" + (String) ledVal);
+  //analogWrite(ledPin, ledVal);
+  
+  //int FSRReading = analogRead(FSR_Pin); 
+
+//printing out data of force resistor to determine the values for each block
+  Serial.println(fsrVal);
+  delay(250); //just here to slow down the output for easier reading
+}
